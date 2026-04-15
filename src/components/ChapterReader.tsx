@@ -4,6 +4,7 @@ import { TRANSLATIONS, fetchChapter, type BibleBook, type ChapterData, type Vers
 import { addBookmark, removeBookmark, getBookmarks } from "@/lib/bookmarks";
 import { markChapterRead, isChapterRead } from "@/lib/progress";
 import { getVideosForBook } from "@/lib/bible-videos";
+import { getCurrentChallenge } from "@/lib/challenge";
 import {
   ArrowLeft,
   ArrowRight,
@@ -423,6 +424,15 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
     markChapterRead(book.name, chapter);
     setChapterRead(true);
     showToast("Chapter marked as read!");
+
+    // Increment community challenge counter if this chapter is in the current challenge
+    const challenge = getCurrentChallenge();
+    const isInChallenge = challenge.chapters.some(
+      (ch) => ch.book === book.name && ch.chapter === chapter
+    );
+    if (isInChallenge) {
+      fetch("/api/challenge", { method: "POST" }).catch(() => {});
+    }
   };
 
   const videos = getVideosForBook(book.name);

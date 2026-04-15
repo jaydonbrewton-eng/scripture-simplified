@@ -2,6 +2,7 @@
 
 import Header from "@/components/Header";
 import Walkthrough from "@/components/Walkthrough";
+import WeeklyChallenge from "@/components/WeeklyChallenge";
 import { getTodaysReading } from "@/lib/bible-data";
 import { getBookmarks } from "@/lib/bookmarks";
 import { TOPICS } from "@/lib/topics";
@@ -66,6 +67,9 @@ export default function HomePage() {
             ))}
           </div>
         </section>
+
+        {/* Weekly Community Challenge */}
+        <WeeklyChallenge />
 
         {/* Quick Actions */}
         <section className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

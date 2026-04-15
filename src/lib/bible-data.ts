@@ -69,17 +69,32 @@ export const BIBLE_BOOKS = [
 
 export type BibleBook = (typeof BIBLE_BOOKS)[number];
 
-export const TRANSLATIONS = [
-  { id: "kjv", name: "King James Version", abbreviation: "KJV" },
-  { id: "web", name: "World English Bible", abbreviation: "WEB" },
-  { id: "bbe", name: "Bible in Basic English", abbreviation: "BBE" },
-  { id: "asv", name: "American Standard Version", abbreviation: "ASV" },
-  { id: "darby", name: "Darby Bible", abbreviation: "DARBY" },
-  { id: "dra", name: "Douay-Rheims", abbreviation: "DRA" },
-  { id: "oeb-us", name: "Open English Bible", abbreviation: "OEB" },
-  { id: "oeb-cw", name: "Open English Bible (UK)", abbreviation: "OEB-UK" },
-  { id: "webbe", name: "World English Bible (UK)", abbreviation: "WEBBE" },
-] as const;
+// Translations from bible-api.com (free, public domain)
+const BIBLE_API_TRANSLATIONS = [
+  { id: "kjv", name: "King James Version", abbreviation: "KJV", source: "bible-api" as const },
+  { id: "web", name: "World English Bible", abbreviation: "WEB", source: "bible-api" as const },
+  { id: "bbe", name: "Bible in Basic English", abbreviation: "BBE", source: "bible-api" as const },
+  { id: "asv", name: "American Standard Version", abbreviation: "ASV", source: "bible-api" as const },
+  { id: "darby", name: "Darby Bible", abbreviation: "DARBY", source: "bible-api" as const },
+  { id: "dra", name: "Douay-Rheims", abbreviation: "DRA", source: "bible-api" as const },
+  { id: "oeb-us", name: "Open English Bible", abbreviation: "OEB", source: "bible-api" as const },
+  { id: "oeb-cw", name: "Open English Bible (UK)", abbreviation: "OEB-UK", source: "bible-api" as const },
+  { id: "webbe", name: "World English Bible (UK)", abbreviation: "WEBBE", source: "bible-api" as const },
+];
+
+// Translations from API.Bible (requires API key)
+const API_BIBLE_TRANSLATIONS = [
+  { id: "niv", name: "New International Version", abbreviation: "NIV", source: "api-bible" as const },
+  { id: "nlt", name: "New Living Translation", abbreviation: "NLT", source: "api-bible" as const },
+  { id: "csb", name: "Christian Standard Bible", abbreviation: "CSB", source: "api-bible" as const },
+  { id: "fbv", name: "Free Bible Version", abbreviation: "FBV", source: "api-bible" as const },
+  { id: "t4t", name: "Translation for Translators", abbreviation: "T4T", source: "api-bible" as const },
+  { id: "lsb", name: "Literal Standard Bible", abbreviation: "LSB", source: "api-bible" as const },
+  { id: "gnv", name: "Geneva Bible 1599", abbreviation: "GNV", source: "api-bible" as const },
+];
+
+// Put the most popular ones first
+export const TRANSLATIONS = [...API_BIBLE_TRANSLATIONS.slice(0, 3), ...BIBLE_API_TRANSLATIONS, ...API_BIBLE_TRANSLATIONS.slice(3)] as const;
 
 export type Translation = (typeof TRANSLATIONS)[number];
 
@@ -125,7 +140,20 @@ export async function fetchChapter(
   chapter: number,
   translationId: string = "kjv"
 ): Promise<ChapterData> {
-  const bookId = getBookId(bookName);
+  const translation = TRANSLATIONS.find((t) => t.id === translationId);
+  const source = translation?.source || "bible-api";
+
+  if (source === "api-bible") {
+    return fetchFromApiBible(bookName, chapter, translationId);
+  }
+  return fetchFromBibleApi(bookName, chapter, translationId);
+}
+
+async function fetchFromBibleApi(
+  bookName: string,
+  chapter: number,
+  translationId: string
+): Promise<ChapterData> {
   const url = `https://bible-api.com/${bookName}+${chapter}?translation=${translationId}`;
 
   const response = await fetch(url);
@@ -143,6 +171,30 @@ export async function fetchChapter(
       verse: v.verse,
       text: v.text?.trim() || "",
     })),
+    translation_id: translationId,
+  };
+}
+
+async function fetchFromApiBible(
+  bookName: string,
+  chapter: number,
+  translationId: string
+): Promise<ChapterData> {
+  const url = `/api/bible?book=${encodeURIComponent(bookName)}&chapter=${chapter}&translation=${translationId}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch chapter from API.Bible: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  return {
+    reference: data.reference || `${bookName} ${chapter}`,
+    verses: data.verses || [],
     translation_id: translationId,
   };
 }

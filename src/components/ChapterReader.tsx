@@ -723,7 +723,7 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
       {/* Breakdown modal -- always centered overlay */}
       {selectedVerse && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-overlay"
+          className="fixed inset-0 z-[80] flex items-end sm:items-center justify-center bg-black/80 p-0 sm:p-4 animate-overlay"
           style={{ WebkitBackdropFilter: "none" }}
           onClick={(e) => {
             if (e.target === e.currentTarget) {
@@ -735,26 +735,28 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
         >
           <div
             ref={modalRef}
-            className="animate-modal w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl border border-primary/20 bg-card p-6 shadow-2xl shadow-primary/10"
+            className="animate-modal w-full sm:max-w-lg max-h-[90vh] sm:max-h-[85vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl border border-primary/20 bg-card shadow-2xl shadow-primary/10"
           >
-            <div className="mb-4 flex items-start justify-between">
+            {/* Sticky close bar for mobile */}
+            <div className="sticky top-0 z-10 flex items-center justify-between bg-card px-6 pt-5 pb-3 border-b border-border sm:border-none">
               <div>
                 <div className="flex items-center gap-2 text-primary">
                   <Sparkles size={18} />
                   <span className="font-semibold">Break It Down</span>
                 </div>
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="mt-0.5 text-sm text-muted-foreground">
                   {selectedVerse.book_name} {selectedVerse.chapter}:{selectedVerse.verse}
                 </p>
               </div>
               <button
                 onClick={() => { setSelectedVerse(null); setBreakdown(null); setCrossRefs([]); }}
-                className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground active:bg-secondary"
               >
-                <X size={18} />
+                <X size={20} />
               </button>
             </div>
 
+            <div className="px-6 pb-6">
             <div className="mb-5 rounded-xl bg-secondary/80 p-4 border border-border">
               <p className="text-sm italic leading-relaxed text-secondary-foreground">
                 &quot;{selectedVerse.text.trim()}&quot;
@@ -810,6 +812,7 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
                 )}
               </div>
             ) : null}
+          </div>
           </div>
         </div>
       )}

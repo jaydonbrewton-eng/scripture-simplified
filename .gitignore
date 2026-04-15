@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 /.pnp
+
+# ai response cache
+/.cache
 .pnp.*
 .yarn/*
 !.yarn/patches

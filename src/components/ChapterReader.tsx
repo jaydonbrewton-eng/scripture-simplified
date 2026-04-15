@@ -53,6 +53,7 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
   const [compareData, setCompareData] = useState<ChapterData | null>(null);
   const [translation, setTranslation] = useState("kjv");
   const [compareTranslation, setCompareTranslation] = useState<string | null>(null);
+  const [mobileCompareTab, setMobileCompareTab] = useState<"primary" | "compare">("primary");
   const [loading, setLoading] = useState(true);
   const [selectedVerse, setSelectedVerse] = useState<Verse | null>(null);
   const [breakdown, setBreakdown] = useState<string | null>(null);
@@ -528,11 +529,33 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
         </button>
       </div>
 
+      {/* Mobile tab switcher for compare mode */}
+      {compareData && (
+        <div className="mb-4 flex rounded-xl border border-border bg-card p-1 md:hidden">
+          <button
+            onClick={() => setMobileCompareTab("primary")}
+            className={`flex-1 rounded-lg py-2 text-center text-sm font-semibold transition-colors ${
+              mobileCompareTab === "primary" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+            }`}
+          >
+            {TRANSLATIONS.find((t) => t.id === translation)?.abbreviation}
+          </button>
+          <button
+            onClick={() => setMobileCompareTab("compare")}
+            className={`flex-1 rounded-lg py-2 text-center text-sm font-semibold transition-colors ${
+              mobileCompareTab === "compare" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+            }`}
+          >
+            {TRANSLATIONS.find((t) => t.id === compareTranslation)?.abbreviation}
+          </button>
+        </div>
+      )}
+
       {/* Verses */}
       <div className={compareData ? "grid gap-6 md:grid-cols-2" : ""}>
-        <div className="space-y-1">
+        <div className={`space-y-1 ${compareData && mobileCompareTab !== "primary" ? "hidden md:block" : ""}`}>
           {compareData && (
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary">
+            <p className="mb-3 hidden text-xs font-semibold uppercase tracking-wider text-primary md:block">
               {TRANSLATIONS.find((t) => t.id === translation)?.abbreviation}
             </p>
           )}
@@ -566,8 +589,8 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
         </div>
 
         {compareData && (
-          <div className="space-y-1 border-t border-border pt-6 md:border-l md:border-t-0 md:pl-6 md:pt-0">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary">
+          <div className={`space-y-1 border-t border-border pt-6 md:border-l md:border-t-0 md:pl-6 md:pt-0 ${mobileCompareTab !== "compare" ? "hidden md:block" : ""}`}>
+            <p className="mb-3 hidden text-xs font-semibold uppercase tracking-wider text-primary md:block">
               {TRANSLATIONS.find((t) => t.id === compareTranslation)?.abbreviation}
             </p>
             {compareData.verses.map((verse) => (

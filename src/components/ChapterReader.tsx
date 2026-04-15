@@ -29,6 +29,18 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+function renderMarkdown(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="text-foreground">$1</strong>')
+    .replace(/^### (.+)$/gm, '<h3 class="text-base font-semibold text-foreground mt-4 mb-1">$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2 class="text-base font-semibold text-foreground mt-4 mb-1">$1</h2>')
+    .replace(/^- (.+)$/gm, '<li class="ml-4 list-disc">$1</li>')
+    .replace(/^\* (.+)$/gm, '<li class="ml-4 list-disc">$1</li>')
+    .replace(/(<li.*<\/li>\n?)+/g, '<ul class="my-2 space-y-1">$&</ul>')
+    .replace(/\n{2,}/g, '</p><p class="mt-3">')
+    .replace(/\n/g, '<br/>');
+}
+
 interface ChapterReaderProps {
   book: BibleBook;
   chapter: number;
@@ -728,9 +740,10 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
                     <Lightbulb size={14} className="text-yellow-400" />
                     In Plain Language
                   </div>
-                  <p className="text-sm leading-relaxed text-secondary-foreground whitespace-pre-line">
-                    {breakdown}
-                  </p>
+                  <div
+                    className="text-sm leading-relaxed text-secondary-foreground prose-breakdown"
+                    dangerouslySetInnerHTML={{ __html: renderMarkdown(breakdown) }}
+                  />
                 </div>
 
                 {crossRefs.length > 0 && (
@@ -740,14 +753,19 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
                       Related Verses
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {crossRefs.map((ref, i) => (
-                        <span
-                          key={i}
-                          className="rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary"
-                        >
-                          {ref}
-                        </span>
-                      ))}
+                      {crossRefs.map((ref, i) => {
+                        const bookMatch = ref.match(/^(.+?)\s+\d/);
+                        const bookName = bookMatch ? bookMatch[1].trim() : "";
+                        return (
+                          <a
+                            key={i}
+                            href={`/read?book=${encodeURIComponent(bookName)}`}
+                            className="rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors cursor-pointer"
+                          >
+                            {ref}
+                          </a>
+                        );
+                      })}
                     </div>
                   </div>
                 )}

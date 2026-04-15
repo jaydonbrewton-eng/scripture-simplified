@@ -67,16 +67,18 @@ export async function GET(request: NextRequest) {
     const verseMap = new Map<number, string>();
     let currentVerse = 0;
 
-    function walkItems(items: ApiItem[]) {
+    function walkItems(items: ApiItem[], insideVerseTag = false) {
       for (const item of items) {
         if (item.type === "tag" && item.name === "verse" && item.attrs?.number) {
           currentVerse = parseInt(item.attrs.number);
-        } else if (item.type === "text" && item.text && currentVerse > 0) {
+          // Skip children of verse tags (they contain the verse number as text)
+          continue;
+        } else if (item.type === "text" && item.text && currentVerse > 0 && !insideVerseTag) {
           const existing = verseMap.get(currentVerse) || "";
           verseMap.set(currentVerse, existing + item.text);
         }
         if (item.items && item.items.length > 0) {
-          walkItems(item.items);
+          walkItems(item.items, false);
         }
       }
     }

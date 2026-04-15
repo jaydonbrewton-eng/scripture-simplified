@@ -1,7 +1,13 @@
 import { NextRequest } from "next/server";
 import { getCached, setCache } from "@/lib/cache";
+import { isRateLimited } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") || "unknown";
+  if (isRateLimited(ip)) {
+    return Response.json({ definition: "Please wait a moment before trying again.", original: "", note: "" }, { status: 429 });
+  }
+
   const { word, verseContext, reference } = await request.json();
 
   const cacheKey = `define:${word.toLowerCase()}:${reference}`;

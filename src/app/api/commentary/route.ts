@@ -1,7 +1,13 @@
 import { NextRequest } from "next/server";
 import { getCached, setCache } from "@/lib/cache";
+import { isRateLimited } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") || "unknown";
+  if (isRateLimited(ip)) {
+    return Response.json({ context: "Please wait a moment before trying again.", keyThemes: [], lifeApplication: "" }, { status: 429 });
+  }
+
   const { book, chapter, verseSummary } = await request.json();
 
   const cacheKey = `commentary:${book}:${chapter}`;

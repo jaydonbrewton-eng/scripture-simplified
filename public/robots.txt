@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://scripture-simplified.vercel.app/sitemap.xml

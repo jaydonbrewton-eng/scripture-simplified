@@ -1,7 +1,13 @@
 import { NextRequest } from "next/server";
 import { getCached, setCache } from "@/lib/cache";
+import { isRateLimited } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") || "unknown";
+  if (isRateLimited(ip)) {
+    return Response.json({ breakdown: "You're moving fast! Please wait a moment before trying again.", crossReferences: [] }, { status: 429 });
+  }
+
   const { verse, reference, translation } = await request.json();
 
   const cacheKey = `breakdown:${reference}:${translation}`;

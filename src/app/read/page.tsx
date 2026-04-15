@@ -15,12 +15,19 @@ function ReadContent() {
 
   useEffect(() => {
     const bookParam = searchParams.get("book");
+    const chapterParam = searchParams.get("chapter");
     if (bookParam) {
       const found = BIBLE_BOOKS.find(
         (b) => b.name.toLowerCase() === bookParam.toLowerCase()
       );
       if (found) {
         setSelectedBook(found);
+        if (chapterParam) {
+          const ch = parseInt(chapterParam);
+          if (ch >= 1 && ch <= found.chapters) {
+            setSelectedChapter(ch);
+          }
+        }
       }
     }
   }, [searchParams]);

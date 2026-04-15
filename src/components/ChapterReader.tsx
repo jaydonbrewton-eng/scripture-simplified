@@ -448,17 +448,32 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
 
   if (loading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
-        <Loader2 size={32} className="animate-spin text-primary" />
+      <div className="animate-fade-in">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="h-8 w-8 rounded-lg bg-secondary animate-pulse" />
+          <div className="h-6 w-48 rounded-lg bg-secondary animate-pulse" />
+        </div>
+        <div className="space-y-4">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div key={i} className="space-y-2 px-3">
+              <div className="h-4 rounded bg-secondary animate-pulse" style={{ width: `${70 + Math.random() * 30}%` }} />
+              <div className="h-4 rounded bg-secondary animate-pulse" style={{ width: `${50 + Math.random() * 40}%` }} />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
   if (!chapterData || chapterData.verses.length === 0) {
     return (
-      <div className="animate-fade-in text-center">
-        <p className="text-muted-foreground">Could not load this chapter. Try a different translation.</p>
-        <button onClick={onBack} className="mt-4 text-primary hover:underline">Go back</button>
+      <div className="animate-fade-in text-center py-16">
+        <p className="text-lg font-semibold text-foreground mb-2">Couldn&apos;t load this chapter</p>
+        <p className="text-muted-foreground mb-4">This translation might not be available right now. Try a different one.</p>
+        <div className="flex items-center justify-center gap-3">
+          <button onClick={onBack} className="rounded-xl border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Go back</button>
+          <button onClick={() => window.location.reload()} className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-accent transition-colors">Try again</button>
+        </div>
       </div>
     );
   }
@@ -777,12 +792,13 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {crossRefs.map((ref, i) => {
-                        const bookMatch = ref.match(/^(.+?)\s+\d/);
-                        const bookName = bookMatch ? bookMatch[1].trim() : "";
+                        const match = ref.match(/^(.+?)\s+(\d+)/);
+                        const bookName = match ? match[1].trim() : "";
+                        const chapterNum = match ? match[2] : "1";
                         return (
                           <a
                             key={i}
-                            href={`/read?book=${encodeURIComponent(bookName)}`}
+                            href={`/read?book=${encodeURIComponent(bookName)}&chapter=${chapterNum}`}
                             className="rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors cursor-pointer"
                           >
                             {ref}

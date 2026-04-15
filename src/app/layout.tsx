@@ -22,13 +22,25 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Scripture Simplified - Bible Study for Everyone",
   description:
-    "Make the Bible digestible. Read, compare translations, and get AI-powered plain-language breakdowns without losing the message.",
+    "Make the Bible digestible. Read in 16 translations, get AI-powered plain-language breakdowns, and find verses for what you're going through -- without losing a single drop of the message.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "Scripture Simplified",
   },
+  openGraph: {
+    title: "Scripture Simplified",
+    description: "The Bible made digestible for a new generation. Read it, understand it, live it.",
+    type: "website",
+    siteName: "Scripture Simplified",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Scripture Simplified",
+    description: "The Bible made digestible for a new generation. Read it, understand it, live it.",
+  },
+  keywords: ["Bible", "Bible study", "scripture", "Gen Z", "Bible app", "Bible translations", "NIV", "KJV", "NLT"],
 };
 
 export default function RootLayout({

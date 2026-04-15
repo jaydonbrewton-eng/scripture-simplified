@@ -62,40 +62,39 @@ export async function GET(request: NextRequest) {
     const data = await res.json();
     const content = data.data?.content || [];
 
-    const verses: { book_name: string; chapter: number; verse: number; text: string }[] = [];
+    // Parse the nested API.Bible JSON structure
+    // Structure: array of paragraph tags, each containing verse tags and text nodes
+    const verseMap = new Map<number, string>();
     let currentVerse = 0;
-    let currentText = "";
 
-    for (const item of content) {
-      if (item.type === "verse" && item.attrs?.number) {
-        if (currentVerse > 0 && currentText.trim()) {
-          verses.push({
-            book_name: book,
-            chapter: parseInt(chapter),
-            verse: currentVerse,
-            text: currentText.trim(),
-          });
+    function walkItems(items: ApiItem[]) {
+      for (const item of items) {
+        if (item.type === "tag" && item.name === "verse" && item.attrs?.number) {
+          currentVerse = parseInt(item.attrs.number);
+        } else if (item.type === "text" && item.text && currentVerse > 0) {
+          const existing = verseMap.get(currentVerse) || "";
+          verseMap.set(currentVerse, existing + item.text);
         }
-        currentVerse = parseInt(item.attrs.number);
-        currentText = "";
-      } else if (item.type === "text") {
-        currentText += item.text || "";
-      } else if (item.items) {
-        currentText += extractText(item.items);
+        if (item.items && item.items.length > 0) {
+          walkItems(item.items);
+        }
       }
     }
 
-    if (currentVerse > 0 && currentText.trim()) {
-      verses.push({
+    walkItems(content);
+
+    const verses = Array.from(verseMap.entries())
+      .sort(([a], [b]) => a - b)
+      .map(([num, text]) => ({
         book_name: book,
         chapter: parseInt(chapter),
-        verse: currentVerse,
-        text: currentText.trim(),
-      });
-    }
+        verse: num,
+        text: text.trim(),
+      }))
+      .filter((v) => v.text.length > 0);
 
     return Response.json({
-      reference: `${book} ${chapter}`,
+      reference: data.data?.reference || `${book} ${chapter}`,
       verses,
       translation_id: translation,
     });
@@ -107,17 +106,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function extractText(items: unknown[]): string {
-  let text = "";
-  for (const item of items) {
-    const i = item as { type?: string; text?: string; items?: unknown[] };
-    if (i.type === "text" && i.text) {
-      text += i.text;
-    } else if (i.items) {
-      text += extractText(i.items);
-    }
-  }
-  return text;
+interface ApiItem {
+  type?: string;
+  name?: string;
+  text?: string;
+  attrs?: { number?: string; style?: string; [key: string]: unknown };
+  items?: ApiItem[];
 }
 
 const BOOK_MAP: Record<string, string> = {

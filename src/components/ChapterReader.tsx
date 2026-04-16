@@ -58,6 +58,9 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
   const [selectedVerse, setSelectedVerse] = useState<Verse | null>(null);
   const [breakdown, setBreakdown] = useState<string | null>(null);
   const [crossRefs, setCrossRefs] = useState<string[]>([]);
+  const [expandedRef, setExpandedRef] = useState<string | null>(null);
+  const [expandedRefText, setExpandedRefText] = useState<string | null>(null);
+  const [expandedRefLoading, setExpandedRefLoading] = useState(false);
   const [breakdownLoading, setBreakdownLoading] = useState(false);
   const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(new Set());
   const [shareToast, setShareToast] = useState<string | null>(null);
@@ -141,6 +144,8 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
     setSelectedVerse(verse);
     setBreakdown(null);
     setCrossRefs([]);
+    setExpandedRef(null);
+    setExpandedRefText(null);
     setBreakdownLoading(true);
     setHighlightedVerse(verse.verse);
     setTimeout(() => setHighlightedVerse(null), 2000);
@@ -810,19 +815,54 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
                       <Link2 size={14} className="text-primary" />
                       Related Verses
                     </div>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="space-y-2">
                       {crossRefs.map((ref, i) => {
-                        const match = ref.match(/^(.+?)\s+(\d+)/);
-                        const bookName = match ? match[1].trim() : "";
-                        const chapterNum = match ? match[2] : "1";
+                        const isOpen = expandedRef === ref;
                         return (
-                          <a
-                            key={i}
-                            href={`/read?book=${encodeURIComponent(bookName)}&chapter=${chapterNum}`}
-                            className="rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors cursor-pointer"
-                          >
-                            {ref}
-                          </a>
+                          <div key={i}>
+                            <button
+                              onClick={async () => {
+                                if (isOpen) {
+                                  setExpandedRef(null);
+                                  setExpandedRefText(null);
+                                  return;
+                                }
+                                setExpandedRef(ref);
+                                setExpandedRefText(null);
+                                setExpandedRefLoading(true);
+                                try {
+                                  const res = await fetch(`/api/search?q=${encodeURIComponent(ref)}`);
+                                  const data = await res.json();
+                                  if (data.results && data.results.length > 0) {
+                                    setExpandedRefText(data.results.map((v: { verse: number; text: string }) => `${v.verse}. ${v.text.trim()}`).join(" "));
+                                  } else {
+                                    setExpandedRefText("Could not load this verse.");
+                                  }
+                                } catch {
+                                  setExpandedRefText("Could not load this verse.");
+                                } finally {
+                                  setExpandedRefLoading(false);
+                                }
+                              }}
+                              className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-colors text-left ${isOpen ? "bg-primary/20 text-primary" : "bg-primary/10 text-primary hover:bg-primary/20"}`}
+                            >
+                              <Link2 size={12} className="shrink-0" />
+                              <span className="flex-1">{ref}</span>
+                              <ChevronDown size={12} className={`shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                            </button>
+                            {isOpen && (
+                              <div className="mt-1 rounded-lg bg-secondary/60 border border-border/50 p-3 animate-fade-in">
+                                {expandedRefLoading ? (
+                                  <div className="flex items-center gap-2 py-2 justify-center">
+                                    <Loader2 size={14} className="animate-spin text-primary" />
+                                    <span className="text-xs text-muted-foreground">Loading verse...</span>
+                                  </div>
+                                ) : (
+                                  <p className="text-sm leading-relaxed text-secondary-foreground italic">{expandedRefText}</p>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         );
                       })}
                     </div>

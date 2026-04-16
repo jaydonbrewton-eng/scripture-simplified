@@ -48,7 +48,7 @@ export default function HomePage() {
         </section>
 
         {/* What are you going through? */}
-        <section className="mb-12">
+        <section id="tour-topics" className="mb-12">
           <h2 className="mb-2 text-center text-lg font-bold">What are you going through?</h2>
           <p className="mb-5 text-center text-sm text-muted-foreground">
             Tap what resonates and we&apos;ll show you verses that speak to it.
@@ -70,7 +70,7 @@ export default function HomePage() {
         <WeeklyChallenge />
 
         {/* Quick Actions */}
-        <section className="mb-12 grid gap-4 sm:grid-cols-3">
+        <section id="tour-actions" className="mb-12 grid gap-4 sm:grid-cols-3">
           <Link
             href="/plans"
             className="group rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
@@ -117,7 +117,7 @@ export default function HomePage() {
         </section>
 
         {/* Break it Down feature callout */}
-        <section className="mb-12 rounded-2xl border border-primary/30 bg-primary/5 p-8 text-center">
+        <section id="tour-breakdown" className="mb-12 rounded-2xl border border-primary/30 bg-primary/5 p-8 text-center">
           <Sparkles size={28} className="mx-auto mb-3 text-primary" />
           <h2 className="mb-2 text-xl font-bold">Break It Down</h2>
           <p className="mx-auto mb-4 max-w-md text-sm text-muted-foreground">

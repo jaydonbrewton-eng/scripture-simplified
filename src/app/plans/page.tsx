@@ -4,9 +4,68 @@ import Header from "@/components/Header";
 import { READING_PLANS } from "@/lib/topics";
 import { BIBLE_BOOKS } from "@/lib/bible-data";
 import ChapterReader from "@/components/ChapterReader";
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, ChevronDown, ChevronUp, PenLine } from "lucide-react";
 import { useMemo, useState } from "react";
 import { isChapterRead } from "@/lib/progress";
+import type { ReadingPlan } from "@/lib/topics";
+
+function DayList({ plan, completed, onSelectDay }: { plan: ReadingPlan; completed: Set<number>; onSelectDay: (day: { book: string; chapter: number }) => void }) {
+  const [expandedDay, setExpandedDay] = useState<number | null>(null);
+
+  return (
+    <div className="space-y-3">
+      {plan.days.map((day) => {
+        const done = completed.has(day.day);
+        const hasPrompts = day.prompts && day.prompts.length > 0;
+        const isExpanded = expandedDay === day.day;
+
+        return (
+          <div key={day.day} className={`rounded-xl border transition-all ${done ? "border-green-500/20 bg-green-500/5" : "border-border bg-card"}`}>
+            <button
+              onClick={() => onSelectDay({ book: day.book, chapter: day.chapter })}
+              className="flex w-full items-center gap-4 p-4 text-left hover:bg-secondary/50 transition-colors rounded-xl"
+            >
+              <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
+                done ? "bg-green-500/10 text-green-400" : "bg-primary/10 text-primary"
+              }`}>
+                {done ? <CheckCircle2 size={18} /> : day.day}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-medium">{day.title}</p>
+                <p className="text-xs text-muted-foreground">{day.book} {day.chapter} &mdash; {day.summary}</p>
+              </div>
+              <ArrowRight size={16} className="shrink-0 text-muted-foreground" />
+            </button>
+
+            {done && hasPrompts && (
+              <div className="border-t border-border/50">
+                <button
+                  onClick={() => setExpandedDay(isExpanded ? null : day.day)}
+                  className="flex w-full items-center gap-2 px-4 py-2.5 text-xs font-medium text-primary hover:bg-primary/5 transition-colors"
+                >
+                  <PenLine size={13} />
+                  Reflect on this chapter
+                  {isExpanded ? <ChevronUp size={13} className="ml-auto" /> : <ChevronDown size={13} className="ml-auto" />}
+                </button>
+                {isExpanded && (
+                  <div className="px-4 pb-4 animate-fade-in">
+                    <div className="space-y-3">
+                      {day.prompts.map((prompt, i) => (
+                        <div key={i} className="rounded-lg bg-secondary/60 border border-border/50 p-3.5">
+                          <p className="text-sm leading-relaxed text-secondary-foreground">{prompt}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function PlansPage() {
   const [activePlan, setActivePlan] = useState<string | null>(null);
@@ -80,31 +139,7 @@ export default function PlansPage() {
               </div>
             )}
 
-            <div className="space-y-3">
-              {plan.days.map((day) => {
-                const done = completed.has(day.day);
-                return (
-                  <button
-                    key={day.day}
-                    onClick={() => setActiveDay({ book: day.book, chapter: day.chapter })}
-                    className={`flex w-full items-center gap-4 rounded-xl border p-4 text-left transition-all hover:border-primary/40 ${
-                      done ? "border-green-500/20 bg-green-500/5" : "border-border bg-card"
-                    }`}
-                  >
-                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
-                      done ? "bg-green-500/10 text-green-400" : "bg-primary/10 text-primary"
-                    }`}>
-                      {done ? <CheckCircle2 size={18} /> : day.day}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium">{day.title}</p>
-                      <p className="text-xs text-muted-foreground">{day.book} {day.chapter} &mdash; {day.summary}</p>
-                    </div>
-                    <ArrowRight size={16} className="shrink-0 text-muted-foreground" />
-                  </button>
-                );
-              })}
-            </div>
+            <DayList plan={plan} completed={completed} onSelectDay={setActiveDay} />
           </div>
         </main>
       </>

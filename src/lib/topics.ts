@@ -21,7 +21,7 @@ export interface ReadingPlan {
   title: string;
   description: string;
   emoji: string;
-  days: { day: number; book: string; chapter: number; title: string; summary: string }[];
+  days: { day: number; book: string; chapter: number; title: string; summary: string; prompts: string[] }[];
 }
 
 export const TOPICS: Topic[] = [
@@ -169,13 +169,13 @@ export const READING_PLANS: ReadingPlan[] = [
     description: "When your mind won't quiet down, God's Word can.",
     emoji: "\ud83c\udf0a",
     days: [
-      { day: 1, book: "Philippians", chapter: 4, title: "Give It to God", summary: "Paul's prescription for an anxious mind." },
-      { day: 2, book: "Matthew", chapter: 6, title: "Stop Worrying About Tomorrow", summary: "Jesus explains why stressing is pointless." },
-      { day: 3, book: "Psalms", chapter: 23, title: "He Leads You", summary: "Even in the darkest valley, you're not alone." },
-      { day: 4, book: "Isaiah", chapter: 41, title: "Do Not Fear", summary: "God's direct promise to hold you up." },
-      { day: 5, book: "1 Peter", chapter: 5, title: "Cast Your Cares", summary: "Throw the weight off. He can carry it." },
-      { day: 6, book: "Psalms", chapter: 46, title: "Be Still", summary: "God is in control even when everything shakes." },
-      { day: 7, book: "John", chapter: 14, title: "Peace I Give You", summary: "The peace Jesus offers is different from the world's." },
+      { day: 1, book: "Philippians", chapter: 4, title: "Give It to God", summary: "Paul's prescription for an anxious mind.", prompts: ["What's weighing on you right now that you keep carrying on your own?", "Was there anything in this chapter that felt like it was written for where you are today?"] },
+      { day: 2, book: "Matthew", chapter: 6, title: "Stop Worrying About Tomorrow", summary: "Jesus explains why stressing is pointless.", prompts: ["What part of this chapter challenged the way you usually think?", "What would your day look like if you actually let go of tomorrow's worries?"] },
+      { day: 3, book: "Psalms", chapter: 23, title: "He Leads You", summary: "Even in the darkest valley, you're not alone.", prompts: ["What stood out to you most in this psalm?", "Where in your life do you need to be led right now?"] },
+      { day: 4, book: "Isaiah", chapter: 41, title: "Do Not Fear", summary: "God's direct promise to hold you up.", prompts: ["What word or phrase stuck with you after reading this?", "What fear have you been avoiding bringing to God?"] },
+      { day: 5, book: "1 Peter", chapter: 5, title: "Cast Your Cares", summary: "Throw the weight off. He can carry it.", prompts: ["What are you holding onto that you could release right now?", "How did this chapter make you feel?"] },
+      { day: 6, book: "Psalms", chapter: 46, title: "Be Still", summary: "God is in control even when everything shakes.", prompts: ["What does being still actually look like in your life?", "Was there a moment reading this where something clicked for you?"] },
+      { day: 7, book: "John", chapter: 14, title: "Peace I Give You", summary: "The peace Jesus offers is different from the world's.", prompts: ["After this week of reading, what has shifted in how you see your anxiety?", "What's one thing from this plan you want to hold onto going forward?"] },
     ],
   },
   {
@@ -184,13 +184,13 @@ export const READING_PLANS: ReadingPlan[] = [
     description: "Even the people closest to God went through the darkness.",
     emoji: "\ud83c\udf11",
     days: [
-      { day: 1, book: "Psalms", chapter: 42, title: "Why So Downcast?", summary: "David asks his own soul why it's so heavy -- and chooses hope anyway." },
-      { day: 2, book: "1 Kings", chapter: 19, title: "Elijah's Darkest Day", summary: "After his greatest victory, he wanted to die. God gave him rest, not a lecture." },
-      { day: 3, book: "Psalms", chapter: 88, title: "The Honest Prayer", summary: "The only psalm with no happy ending. Raw, real, and still in the Bible." },
-      { day: 4, book: "Job", chapter: 3, title: "Job's Grief", summary: "He lost everything and cursed the day he was born. God didn't abandon him." },
-      { day: 5, book: "Lamentations", chapter: 3, title: "Hope in the Wreckage", summary: "In the middle of utter devastation: 'His mercies are new every morning.'" },
-      { day: 6, book: "Matthew", chapter: 26, title: "Jesus Knew Sorrow", summary: "His soul was 'exceeding sorrowful, even unto death.' He understands." },
-      { day: 7, book: "Romans", chapter: 8, title: "Nothing Can Separate You", summary: "No darkness, no depth, nothing can cut you off from God's love." },
+      { day: 1, book: "Psalms", chapter: 42, title: "Why So Downcast?", summary: "David asks his own soul why it's so heavy -- and chooses hope anyway.", prompts: ["What felt real to you in this psalm?", "Have you ever had a conversation with yourself the way the psalmist does here?"] },
+      { day: 2, book: "1 Kings", chapter: 19, title: "Elijah's Darkest Day", summary: "After his greatest victory, he wanted to die. God gave him rest, not a lecture.", prompts: ["What surprised you about how God responded to Elijah?", "What do you think you need right now -- rest, food, a word, or just presence?"] },
+      { day: 3, book: "Psalms", chapter: 88, title: "The Honest Prayer", summary: "The only psalm with no happy ending. Raw, real, and still in the Bible.", prompts: ["How does it feel to read a prayer that doesn't end with a resolution?", "What would you say to God if you were completely honest right now?"] },
+      { day: 4, book: "Job", chapter: 3, title: "Job's Grief", summary: "He lost everything and cursed the day he was born. God didn't abandon him.", prompts: ["What part of Job's words hit closest to home for you?", "What does it mean to you that this kind of raw pain is in the Bible?"] },
+      { day: 5, book: "Lamentations", chapter: 3, title: "Hope in the Wreckage", summary: "In the middle of utter devastation: 'His mercies are new every morning.'", prompts: ["Was there a line in this chapter that stopped you?", "What does 'new every morning' look like for where you are right now?"] },
+      { day: 6, book: "Matthew", chapter: 26, title: "Jesus Knew Sorrow", summary: "His soul was 'exceeding sorrowful, even unto death.' He understands.", prompts: ["How does it change things to know Jesus felt deep sorrow too?", "What are you carrying that you haven't fully acknowledged yet?"] },
+      { day: 7, book: "Romans", chapter: 8, title: "Nothing Can Separate You", summary: "No darkness, no depth, nothing can cut you off from God's love.", prompts: ["After reading through this week, what has stayed with you the most?", "What's one thing you want to remember on the hard days?"] },
     ],
   },
   {
@@ -199,11 +199,11 @@ export const READING_PLANS: ReadingPlan[] = [
     description: "What God says about who you are.",
     emoji: "\ud83d\ude4f",
     days: [
-      { day: 1, book: "Psalms", chapter: 139, title: "Fearfully Made", summary: "You were designed with intention." },
-      { day: 2, book: "Genesis", chapter: 1, title: "In His Image", summary: "You carry the image of the Creator." },
-      { day: 3, book: "Ephesians", chapter: 2, title: "His Masterpiece", summary: "You're God's workmanship, created for a purpose." },
-      { day: 4, book: "Jeremiah", chapter: 1, title: "Known Before Birth", summary: "God knew you before you existed." },
-      { day: 5, book: "1 Peter", chapter: 2, title: "Chosen", summary: "You are chosen, royal, and set apart." },
+      { day: 1, book: "Psalms", chapter: 139, title: "Fearfully Made", summary: "You were designed with intention.", prompts: ["What stood out to you about how God sees you in this psalm?", "What voices have you been listening to about who you are?"] },
+      { day: 2, book: "Genesis", chapter: 1, title: "In His Image", summary: "You carry the image of the Creator.", prompts: ["What hit you differently reading this chapter with identity in mind?", "What does it stir in you to know you were made on purpose?"] },
+      { day: 3, book: "Ephesians", chapter: 2, title: "His Masterpiece", summary: "You're God's workmanship, created for a purpose.", prompts: ["What part of this chapter felt personal to you?", "Is there something about yourself you've been struggling to accept?"] },
+      { day: 4, book: "Jeremiah", chapter: 1, title: "Known Before Birth", summary: "God knew you before you existed.", prompts: ["How does it land to read that God knew you before you were born?", "What are you feeling after sitting with this chapter?"] },
+      { day: 5, book: "1 Peter", chapter: 2, title: "Chosen", summary: "You are chosen, royal, and set apart.", prompts: ["After this week, has anything shifted in how you see yourself?", "What's one truth from these readings you want to carry with you?"] },
     ],
   },
   {
@@ -212,13 +212,13 @@ export const READING_PLANS: ReadingPlan[] = [
     description: "Finding out why you're here.",
     emoji: "\ud83e\udded",
     days: [
-      { day: 1, book: "Jeremiah", chapter: 29, title: "Plans for You", summary: "God's plans for you are good." },
-      { day: 2, book: "Proverbs", chapter: 3, title: "Trust the Process", summary: "Stop leaning on your own understanding." },
-      { day: 3, book: "Romans", chapter: 8, title: "It All Works Together", summary: "Even the hard stuff has a purpose." },
-      { day: 4, book: "Ecclesiastes", chapter: 3, title: "A Time for Everything", summary: "Your season has meaning." },
-      { day: 5, book: "Matthew", chapter: 5, title: "Salt and Light", summary: "You're meant to make a difference." },
-      { day: 6, book: "Ephesians", chapter: 2, title: "Created for Good Works", summary: "Your purpose was prepared in advance." },
-      { day: 7, book: "Isaiah", chapter: 58, title: "Guided Continually", summary: "He won't leave you guessing forever." },
+      { day: 1, book: "Jeremiah", chapter: 29, title: "Plans for You", summary: "God's plans for you are good.", prompts: ["What jumped out at you in this chapter?", "What have you been telling yourself about your future?"] },
+      { day: 2, book: "Proverbs", chapter: 3, title: "Trust the Process", summary: "Stop leaning on your own understanding.", prompts: ["What part of this chapter made you pause?", "Where in your life have you been trying to figure everything out on your own?"] },
+      { day: 3, book: "Romans", chapter: 8, title: "It All Works Together", summary: "Even the hard stuff has a purpose.", prompts: ["What resonated with you in this chapter?", "Is there something hard you've been through that makes more sense now?"] },
+      { day: 4, book: "Ecclesiastes", chapter: 3, title: "A Time for Everything", summary: "Your season has meaning.", prompts: ["What season are you in right now?", "What did you notice in this chapter that you hadn't before?"] },
+      { day: 5, book: "Matthew", chapter: 5, title: "Salt and Light", summary: "You're meant to make a difference.", prompts: ["What stood out to you in how Jesus describes his followers?", "Where in your life could you be showing up differently?"] },
+      { day: 6, book: "Ephesians", chapter: 2, title: "Created for Good Works", summary: "Your purpose was prepared in advance.", prompts: ["What felt meaningful to you in this chapter?", "What gifts or passions do you have that might be part of something bigger?"] },
+      { day: 7, book: "Isaiah", chapter: 58, title: "Guided Continually", summary: "He won't leave you guessing forever.", prompts: ["After this week of reading, what has come into focus for you?", "What's one thing you're taking away from this plan?"] },
     ],
   },
   {
@@ -227,11 +227,11 @@ export const READING_PLANS: ReadingPlan[] = [
     description: "When life hits hard and you need to keep going.",
     emoji: "\ud83d\udcaa",
     days: [
-      { day: 1, book: "Isaiah", chapter: 40, title: "Renewed Strength", summary: "Wait on God and your energy comes back." },
-      { day: 2, book: "Philippians", chapter: 4, title: "I Can Do All Things", summary: "Strength through Christ, not yourself." },
-      { day: 3, book: "James", chapter: 1, title: "Joy in Trials", summary: "Hard times build something real in you." },
-      { day: 4, book: "Psalms", chapter: 46, title: "God Is Your Refuge", summary: "A very present help in trouble." },
-      { day: 5, book: "2 Corinthians", chapter: 12, title: "Strength in Weakness", summary: "When you're weak, He's strong." },
+      { day: 1, book: "Isaiah", chapter: 40, title: "Renewed Strength", summary: "Wait on God and your energy comes back.", prompts: ["What part of this chapter spoke to where you are right now?", "What does waiting look like for you in this season?"] },
+      { day: 2, book: "Philippians", chapter: 4, title: "I Can Do All Things", summary: "Strength through Christ, not yourself.", prompts: ["What stood out to you beyond the famous verse?", "Where have you been trying to be strong on your own?"] },
+      { day: 3, book: "James", chapter: 1, title: "Joy in Trials", summary: "Hard times build something real in you.", prompts: ["What's your honest reaction to this chapter?", "Is there a trial you're in right now that you see differently after reading this?"] },
+      { day: 4, book: "Psalms", chapter: 46, title: "God Is Your Refuge", summary: "A very present help in trouble.", prompts: ["What phrase or image in this psalm stayed with you?", "What would it look like to actually run to God instead of away?"] },
+      { day: 5, book: "2 Corinthians", chapter: 12, title: "Strength in Weakness", summary: "When you're weak, He's strong.", prompts: ["After this week, what has changed about how you see strength?", "What's one thing from these readings you needed to hear?"] },
     ],
   },
   {
@@ -240,11 +240,11 @@ export const READING_PLANS: ReadingPlan[] = [
     description: "Letting go so you can move forward.",
     emoji: "\ud83d\udd4a\ufe0f",
     days: [
-      { day: 1, book: "Ephesians", chapter: 4, title: "Be Kind, Forgive", summary: "Forgive like you've been forgiven." },
-      { day: 2, book: "Matthew", chapter: 6, title: "The Condition", summary: "Forgiveness is a two-way street." },
-      { day: 3, book: "Colossians", chapter: 3, title: "Bear With Each Other", summary: "Nobody's perfect. Give grace." },
-      { day: 4, book: "Psalms", chapter: 103, title: "As Far as East from West", summary: "How far God removes your mistakes." },
-      { day: 5, book: "Luke", chapter: 6, title: "Forgive and Be Free", summary: "Holding on only hurts you." },
+      { day: 1, book: "Ephesians", chapter: 4, title: "Be Kind, Forgive", summary: "Forgive like you've been forgiven.", prompts: ["What part of this chapter was hardest to sit with?", "Is there someone or something that came to mind while reading this?"] },
+      { day: 2, book: "Matthew", chapter: 6, title: "The Condition", summary: "Forgiveness is a two-way street.", prompts: ["What stood out to you in this chapter?", "How do you feel about what Jesus says about forgiveness here?"] },
+      { day: 3, book: "Colossians", chapter: 3, title: "Bear With Each Other", summary: "Nobody's perfect. Give grace.", prompts: ["What in this chapter felt convicting or freeing?", "Where do you need to extend more grace -- to others or to yourself?"] },
+      { day: 4, book: "Psalms", chapter: 103, title: "As Far as East from West", summary: "How far God removes your mistakes.", prompts: ["What line in this psalm hit you the most?", "Is there something you've been holding against yourself that God has already let go of?"] },
+      { day: 5, book: "Luke", chapter: 6, title: "Forgive and Be Free", summary: "Holding on only hurts you.", prompts: ["After this week, has your view on forgiveness shifted at all?", "What's one thing you want to take with you from these readings?"] },
     ],
   },
 ];

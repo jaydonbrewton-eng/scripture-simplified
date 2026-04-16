@@ -502,33 +502,35 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
-            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary"
+            className="flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1.5 text-sm text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors"
           >
             <ChevronLeft size={16} />
-            {book.name}
+            Back
           </button>
-          <h2 className="text-xl font-bold">Chapter {chapter}</h2>
+          <h2 className="text-xl font-bold">{book.name} {chapter}</h2>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <select
-            value={translation}
-            onChange={(e) => setTranslation(e.target.value)}
-            className="rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
-          >
-            {TRANSLATIONS.map((t) => (
-              <option key={t.id} value={t.id}>{t.abbreviation}</option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={translation}
+              onChange={(e) => setTranslation(e.target.value)}
+              className="rounded-lg border border-primary/30 bg-primary/5 px-3 py-2 pr-8 text-sm font-medium text-primary focus:border-primary focus:outline-none"
+            >
+              {TRANSLATIONS.map((t) => (
+                <option key={t.id} value={t.id}>{t.abbreviation} — {t.name}</option>
+              ))}
+            </select>
+          </div>
 
           <select
             value={compareTranslation || ""}
             onChange={(e) => setCompareTranslation(e.target.value || null)}
             className="rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
           >
-            <option value="">Compare with...</option>
+            <option value="">+ Compare</option>
             {TRANSLATIONS.filter((t) => t.id !== translation).map((t) => (
-              <option key={t.id} value={t.id}>{t.abbreviation}</option>
+              <option key={t.id} value={t.id}>{t.abbreviation} — {t.name}</option>
             ))}
           </select>
         </div>

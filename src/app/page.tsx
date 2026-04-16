@@ -50,17 +50,19 @@ export default function HomePage() {
         {/* What are you going through? */}
         <section id="tour-topics" className="mb-12">
           <h2 className="mb-2 text-center text-lg font-bold">What are you going through?</h2>
-          <p className="mb-5 text-center text-sm text-muted-foreground">
+          <p className="mb-6 text-center text-sm text-muted-foreground">
             Tap what resonates and we&apos;ll show you verses that speak to it.
           </p>
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {TOPICS.map((topic) => (
               <Link
                 key={topic.id}
                 href={`/topic/${topic.id}`}
-                className={`flex items-center gap-2 rounded-full border border-border bg-gradient-to-r ${topic.color} px-4 py-2.5 text-sm font-medium transition-all hover:border-primary/40 active:scale-95`}
+                className={`group rounded-2xl border border-border bg-gradient-to-br ${topic.color} p-4 transition-all hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 active:scale-[0.98]`}
               >
-                <span>{topic.emoji}</span> {topic.label}
+                <span className="text-2xl">{topic.emoji}</span>
+                <p className="mt-2 text-sm font-semibold">{topic.label}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground leading-snug">{topic.description}</p>
               </Link>
             ))}
           </div>

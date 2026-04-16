@@ -160,6 +160,21 @@ export const TOPICS: Topic[] = [
       { reference: "Nehemiah 8:10", book: "Nehemiah", chapter: 8, verseStart: 10, preview: "The joy of the LORD is your strength." },
     ],
   },
+  {
+    id: "anger",
+    label: "Anger & Frustration",
+    emoji: "\ud83e\udd2f",
+    description: "When you're about to lose it",
+    color: "from-red-500/20 to-orange-500/20",
+    verses: [
+      { reference: "James 1:19-20", book: "James", chapter: 1, verseStart: 19, verseEnd: 20, preview: "Wherefore, my beloved brethren, let every man be swift to hear, slow to speak, slow to wrath: For the wrath of man worketh not the righteousness of God." },
+      { reference: "Proverbs 15:1", book: "Proverbs", chapter: 15, verseStart: 1, preview: "A soft answer turneth away wrath: but grievous words stir up anger." },
+      { reference: "Ephesians 4:26-27", book: "Ephesians", chapter: 4, verseStart: 26, verseEnd: 27, preview: "Be ye angry, and sin not: let not the sun go down upon your wrath: Neither give place to the devil." },
+      { reference: "Proverbs 29:11", book: "Proverbs", chapter: 29, verseStart: 11, preview: "A fool uttereth all his mind: but a wise man keepeth it in till afterwards." },
+      { reference: "Psalms 37:8", book: "Psalms", chapter: 37, verseStart: 8, preview: "Cease from anger, and forsake wrath: fret not thyself in any wise to do evil." },
+      { reference: "Colossians 3:8", book: "Colossians", chapter: 3, verseStart: 8, preview: "But now ye also put off all these; anger, wrath, malice, blasphemy, filthy communication out of your mouth." },
+    ],
+  },
 ];
 
 export const READING_PLANS: ReadingPlan[] = [

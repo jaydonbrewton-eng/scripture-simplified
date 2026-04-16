@@ -60,6 +60,7 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
   const [crossRefs, setCrossRefs] = useState<string[]>([]);
   const [expandedRef, setExpandedRef] = useState<string | null>(null);
   const [expandedRefText, setExpandedRefText] = useState<string | null>(null);
+  const [expandedRefConnection, setExpandedRefConnection] = useState<string | null>(null);
   const [expandedRefLoading, setExpandedRefLoading] = useState(false);
   const [breakdownLoading, setBreakdownLoading] = useState(false);
   const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(new Set());
@@ -146,6 +147,7 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
     setCrossRefs([]);
     setExpandedRef(null);
     setExpandedRefText(null);
+    setExpandedRefConnection(null);
     setBreakdownLoading(true);
     setHighlightedVerse(verse.verse);
     setTimeout(() => setHighlightedVerse(null), 2000);
@@ -825,22 +827,38 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
                                 if (isOpen) {
                                   setExpandedRef(null);
                                   setExpandedRefText(null);
+                                  setExpandedRefConnection(null);
                                   return;
                                 }
                                 setExpandedRef(ref);
                                 setExpandedRefText(null);
+                                setExpandedRefConnection(null);
                                 setExpandedRefLoading(true);
                                 try {
                                   const res = await fetch(`/api/search?q=${encodeURIComponent(ref)}`);
                                   const data = await res.json();
-                                  if (data.results && data.results.length > 0) {
-                                    setExpandedRefText(data.results.map((v: { verse: number; text: string }) => `${v.verse}. ${v.text.trim()}`).join(" "));
-                                  } else {
-                                    setExpandedRefText("Could not load this verse.");
+                                  const verseText = data.results && data.results.length > 0
+                                    ? data.results.map((v: { verse: number; text: string }) => `${v.verse}. ${v.text.trim()}`).join(" ")
+                                    : null;
+                                  setExpandedRefText(verseText || "Could not load this verse.");
+                                  setExpandedRefLoading(false);
+
+                                  if (verseText && selectedVerse) {
+                                    const connRes = await fetch("/api/cross-ref", {
+                                      method: "POST",
+                                      headers: { "Content-Type": "application/json" },
+                                      body: JSON.stringify({
+                                        originalVerse: selectedVerse.text,
+                                        originalReference: `${selectedVerse.book_name} ${selectedVerse.chapter}:${selectedVerse.verse}`,
+                                        crossReference: ref,
+                                        crossVerseText: verseText,
+                                      }),
+                                    });
+                                    const connData = await connRes.json();
+                                    setExpandedRefConnection(connData.connection || null);
                                   }
                                 } catch {
                                   setExpandedRefText("Could not load this verse.");
-                                } finally {
                                   setExpandedRefLoading(false);
                                 }
                               }}
@@ -851,14 +869,27 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
                               <ChevronDown size={12} className={`shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} />
                             </button>
                             {isOpen && (
-                              <div className="mt-1 rounded-lg bg-secondary/60 border border-border/50 p-3 animate-fade-in">
+                              <div className="mt-1 rounded-lg bg-secondary/60 border border-border/50 p-3 animate-fade-in space-y-3">
                                 {expandedRefLoading ? (
                                   <div className="flex items-center gap-2 py-2 justify-center">
                                     <Loader2 size={14} className="animate-spin text-primary" />
                                     <span className="text-xs text-muted-foreground">Loading verse...</span>
                                   </div>
                                 ) : (
-                                  <p className="text-sm leading-relaxed text-secondary-foreground italic">{expandedRefText}</p>
+                                  <>
+                                    <p className="text-sm leading-relaxed text-secondary-foreground italic">&ldquo;{expandedRefText}&rdquo;</p>
+                                    {expandedRefConnection ? (
+                                      <div className="flex gap-2 border-t border-border/50 pt-2.5">
+                                        <Lightbulb size={13} className="mt-0.5 shrink-0 text-yellow-400" />
+                                        <p className="text-xs leading-relaxed text-muted-foreground">{expandedRefConnection}</p>
+                                      </div>
+                                    ) : expandedRefText && expandedRefText !== "Could not load this verse." ? (
+                                      <div className="flex items-center gap-2 border-t border-border/50 pt-2.5 justify-center">
+                                        <Loader2 size={12} className="animate-spin text-muted-foreground" />
+                                        <span className="text-[11px] text-muted-foreground">Explaining connection...</span>
+                                      </div>
+                                    ) : null}
+                                  </>
                                 )}
                               </div>
                             )}

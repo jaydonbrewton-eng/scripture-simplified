@@ -3,17 +3,15 @@
 import Header from "@/components/Header";
 import Walkthrough from "@/components/Walkthrough";
 import WeeklyChallenge from "@/components/WeeklyChallenge";
-import { getTodaysReading } from "@/lib/bible-data";
 import { getBookmarks } from "@/lib/bookmarks";
 import { TOPICS } from "@/lib/topics";
-import { ArrowRight, BookOpen, Bookmark, Calendar, Heart, HelpCircle, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Bookmark, Heart, HelpCircle, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const WALKTHROUGH_KEY = "scripture-simplified-walkthrough-done";
 
 export default function HomePage() {
-  const todaysReading = getTodaysReading();
   const [bookmarkCount, setBookmarkCount] = useState(0);
   const [showWalkthrough, setShowWalkthrough] = useState(false);
 
@@ -72,7 +70,7 @@ export default function HomePage() {
         <WeeklyChallenge />
 
         {/* Quick Actions */}
-        <section className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="mb-12 grid gap-4 sm:grid-cols-3">
           <Link
             href="/plans"
             className="group rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
@@ -98,20 +96,6 @@ export default function HomePage() {
             </p>
             <span className="flex items-center gap-1 text-sm font-medium text-primary">
               Open Bible <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-            </span>
-          </Link>
-
-          <Link
-            href="/daily"
-            className="group rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
-          >
-            <Calendar size={24} className="mb-3 text-primary" />
-            <h3 className="mb-1 font-semibold">Today&apos;s Reading</h3>
-            <p className="mb-3 text-sm text-muted-foreground">
-              {todaysReading.title} &mdash; {todaysReading.description}
-            </p>
-            <span className="flex items-center gap-1 text-sm font-medium text-primary">
-              Read now <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </span>
           </Link>
 

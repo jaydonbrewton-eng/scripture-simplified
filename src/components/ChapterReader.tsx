@@ -629,6 +629,13 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
         )}
       </div>
 
+      {/* ESV copyright notice */}
+      {(translation === "esv" || compareTranslation === "esv") && (
+        <p className="mt-4 text-xs text-muted-foreground/60 text-center">
+          Scripture quotations marked &quot;ESV&quot; are from the ESV&reg; Bible (The Holy Bible, English Standard Version&reg;), copyright &copy; 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.
+        </p>
+      )}
+
       {/* Tools panel (bottom sheet) */}
       {toolsOpen && (
         <div

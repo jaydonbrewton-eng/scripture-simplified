@@ -93,8 +93,13 @@ const API_BIBLE_TRANSLATIONS = [
   { id: "gnv", name: "Geneva Bible 1599", abbreviation: "GNV", source: "api-bible" as const },
 ];
 
-// Put the most popular ones first
-export const TRANSLATIONS = [...API_BIBLE_TRANSLATIONS.slice(0, 3), ...BIBLE_API_TRANSLATIONS, ...API_BIBLE_TRANSLATIONS.slice(3)] as const;
+// ESV from Crossway ESV API
+const ESV_TRANSLATION = [
+  { id: "esv", name: "English Standard Version", abbreviation: "ESV", source: "esv-api" as const },
+];
+
+// Put the most popular ones first: ESV, NIV, NLT, CSB, then public domain, then the rest
+export const TRANSLATIONS = [...ESV_TRANSLATION, ...API_BIBLE_TRANSLATIONS.slice(0, 3), ...BIBLE_API_TRANSLATIONS, ...API_BIBLE_TRANSLATIONS.slice(3)] as const;
 
 export type Translation = (typeof TRANSLATIONS)[number];
 
@@ -143,6 +148,9 @@ export async function fetchChapter(
   const translation = TRANSLATIONS.find((t) => t.id === translationId);
   const source = translation?.source || "bible-api";
 
+  if (source === "esv-api") {
+    return fetchFromEsvApi(bookName, chapter);
+  }
   if (source === "api-bible") {
     return fetchFromApiBible(bookName, chapter, translationId);
   }
@@ -199,4 +207,25 @@ async function fetchFromApiBible(
   };
 }
 
+async function fetchFromEsvApi(
+  bookName: string,
+  chapter: number,
+): Promise<ChapterData> {
+  const url = `/api/esv?book=${encodeURIComponent(bookName)}&chapter=${chapter}`;
 
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch chapter from ESV API: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  return {
+    reference: data.reference || `${bookName} ${chapter}`,
+    verses: data.verses || [],
+    translation_id: "esv",
+  };
+}

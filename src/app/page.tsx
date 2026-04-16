@@ -1,6 +1,7 @@
 "use client";
 
 import Header from "@/components/Header";
+import InstallPrompt from "@/components/InstallPrompt";
 import Walkthrough from "@/components/Walkthrough";
 import WeeklyChallenge from "@/components/WeeklyChallenge";
 import { getBookmarks } from "@/lib/bookmarks";
@@ -29,6 +30,7 @@ export default function HomePage() {
   return (
     <>
       {showWalkthrough && <Walkthrough onComplete={completeWalkthrough} />}
+      <InstallPrompt />
       <Header />
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
         {/* Hero */}

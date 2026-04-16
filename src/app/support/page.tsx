@@ -68,10 +68,16 @@ export default function SupportPage() {
                 </div>
                 <div>
                   <h3 className="mb-1 text-lg font-semibold">Get in Touch</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="mb-3 text-sm text-muted-foreground">
                     Have ideas, want to volunteer, or just want to say what
                     this app means to you? We&apos;d love to hear from you.
                   </p>
+                  <a
+                    href="/contact"
+                    className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-accent transition-colors"
+                  >
+                    <Mail size={16} /> Contact us
+                  </a>
                 </div>
               </div>
             </div>

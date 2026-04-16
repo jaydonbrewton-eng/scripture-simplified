@@ -5,17 +5,21 @@ import BookSelector from "@/components/BookSelector";
 import ChapterSelector from "@/components/ChapterSelector";
 import ChapterReader from "@/components/ChapterReader";
 import { BIBLE_BOOKS, type BibleBook } from "@/lib/bible-data";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 
 function ReadContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [selectedBook, setSelectedBook] = useState<BibleBook | null>(null);
   const [selectedChapter, setSelectedChapter] = useState<number | null>(null);
+  const [fromParam, setFromParam] = useState<string | null>(null);
 
   useEffect(() => {
     const bookParam = searchParams.get("book");
     const chapterParam = searchParams.get("chapter");
+    const from = searchParams.get("from");
+    if (from) setFromParam(from);
     if (bookParam) {
       const found = BIBLE_BOOKS.find(
         (b) => b.name.toLowerCase() === bookParam.toLowerCase()
@@ -32,12 +36,21 @@ function ReadContent() {
     }
   }, [searchParams]);
 
+  const handleBack = () => {
+    if (fromParam && fromParam.startsWith("topic-")) {
+      const topicId = fromParam.replace("topic-", "");
+      router.push(`/topic/${topicId}`);
+    } else {
+      setSelectedChapter(null);
+    }
+  };
+
   if (selectedBook && selectedChapter) {
     return (
       <ChapterReader
         book={selectedBook}
         chapter={selectedChapter}
-        onBack={() => setSelectedChapter(null)}
+        onBack={handleBack}
         onChangeChapter={(ch) => setSelectedChapter(ch)}
       />
     );

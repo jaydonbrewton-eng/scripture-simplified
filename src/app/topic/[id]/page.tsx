@@ -42,7 +42,7 @@ export default function TopicPage({ params }: { params: Promise<{ id: string }> 
             {topic.verses.map((verse, i) => (
               <Link
                 key={i}
-                href={`/read?book=${encodeURIComponent(verse.book)}&chapter=${verse.chapter}`}
+                href={`/read?book=${encodeURIComponent(verse.book)}&chapter=${verse.chapter}&from=topic-${topic.id}`}
                 className="group flex items-start gap-4 rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/40"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm font-bold text-primary">

@@ -7,19 +7,19 @@ import { getBookmarks } from "@/lib/bookmarks";
 import { TOPICS } from "@/lib/topics";
 import { ArrowRight, BookOpen, Bookmark, Heart, HelpCircle, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const WALKTHROUGH_KEY = "scripture-simplified-walkthrough-done";
 
 export default function HomePage() {
-  const [bookmarkCount, setBookmarkCount] = useState(0);
-  const [showWalkthrough, setShowWalkthrough] = useState(false);
-
-  useEffect(() => {
-    setBookmarkCount(getBookmarks().length);
-    const done = localStorage.getItem(WALKTHROUGH_KEY);
-    if (!done) setShowWalkthrough(true);
-  }, []);
+  const [bookmarkCount] = useState(() => {
+    if (typeof window === "undefined") return 0;
+    return getBookmarks().length;
+  });
+  const [showWalkthrough, setShowWalkthrough] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !localStorage.getItem(WALKTHROUGH_KEY);
+  });
 
   const completeWalkthrough = () => {
     setShowWalkthrough(false);

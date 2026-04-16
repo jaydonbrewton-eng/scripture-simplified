@@ -5,16 +5,14 @@ import { READING_PLANS } from "@/lib/topics";
 import { BIBLE_BOOKS } from "@/lib/bible-data";
 import ChapterReader from "@/components/ChapterReader";
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2 } from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { isChapterRead } from "@/lib/progress";
 
 export default function PlansPage() {
   const [activePlan, setActivePlan] = useState<string | null>(null);
   const [activeDay, setActiveDay] = useState<{ book: string; chapter: number } | null>(null);
-  const [completedDays, setCompletedDays] = useState<Record<string, Set<number>>>({});
-
-  useEffect(() => {
+  const completedDays = useMemo(() => {
+    if (typeof window === "undefined") return {} as Record<string, Set<number>>;
     const completed: Record<string, Set<number>> = {};
     READING_PLANS.forEach((plan) => {
       const set = new Set<number>();
@@ -23,7 +21,8 @@ export default function PlansPage() {
       });
       completed[plan.id] = set;
     });
-    setCompletedDays(completed);
+    return completed;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeDay]);
 
   if (activeDay) {

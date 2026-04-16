@@ -1,4 +1,3 @@
-import { NextRequest } from "next/server";
 import { Redis } from "@upstash/redis";
 import { getChallengeWeekKey } from "@/lib/challenge";
 
@@ -22,7 +21,7 @@ export async function GET() {
 }
 
 // POST: increment community count when a user reads a chapter
-export async function POST(request: NextRequest) {
+export async function POST() {
   const redis = getRedis();
   if (!redis) {
     return Response.json({ count: 0 });

@@ -100,7 +100,7 @@ export async function GET(request: NextRequest) {
       verses,
       translation_id: translation,
     });
-  } catch (e) {
+  } catch {
     return Response.json(
       { error: "Failed to fetch from API.Bible" },
       { status: 500 }

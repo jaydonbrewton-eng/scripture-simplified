@@ -199,26 +199,4 @@ async function fetchFromApiBible(
   };
 }
 
-export const DAILY_READINGS = [
-  { book: "John", chapter: 3, title: "For God So Loved the World", description: "The most famous verse in the Bible and what it really means for you." },
-  { book: "Psalms", chapter: 23, title: "The Lord is My Shepherd", description: "A powerful reminder that you're never walking through life alone." },
-  { book: "Romans", chapter: 8, title: "Nothing Can Separate Us", description: "No matter what you're going through, nothing can cut you off from God's love." },
-  { book: "Genesis", chapter: 1, title: "In the Beginning", description: "How it all started -- the creation of everything." },
-  { book: "Matthew", chapter: 5, title: "The Sermon on the Mount", description: "Jesus drops some of the most real life advice ever given." },
-  { book: "Proverbs", chapter: 3, title: "Trust in the Lord", description: "Practical wisdom for making decisions and trusting the process." },
-  { book: "Philippians", chapter: 4, title: "Finding Peace", description: "How to find real peace even when life gets chaotic." },
-  { book: "1 Corinthians", chapter: 13, title: "What Love Really Is", description: "The definition of love that goes way deeper than feelings." },
-  { book: "Isaiah", chapter: 40, title: "Renewed Strength", description: "When you're running on empty, this is where you recharge." },
-  { book: "James", chapter: 1, title: "Faith Under Pressure", description: "How tough times actually build something real in you." },
-  { book: "Ephesians", chapter: 6, title: "Spiritual Armor", description: "The tools you need to stand strong against what life throws at you." },
-  { book: "Psalms", chapter: 91, title: "God's Protection", description: "A powerful declaration of safety and divine protection." },
-  { book: "Matthew", chapter: 6, title: "Don't Worry", description: "Jesus explains why stressing about tomorrow is pointless." },
-  { book: "Hebrews", chapter: 11, title: "Faith Hall of Fame", description: "Stories of people who bet everything on faith -- and won." },
-];
 
-export function getTodaysReading() {
-  const dayOfYear = Math.floor(
-    (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000
-  );
-  return DAILY_READINGS[dayOfYear % DAILY_READINGS.length];
-}

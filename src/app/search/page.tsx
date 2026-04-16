@@ -1,8 +1,7 @@
 "use client";
 
 import Header from "@/components/Header";
-import { Search, Sparkles, ArrowRight, BookOpen } from "lucide-react";
-import Link from "next/link";
+import { Search, ArrowRight, BookOpen } from "lucide-react";
 import { useState } from "react";
 
 const TOPIC_SUGGESTIONS = [

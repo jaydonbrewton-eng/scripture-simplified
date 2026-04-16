@@ -1,4 +1,3 @@
-import { BIBLE_BOOKS } from "@/lib/bible-data";
 import { TOPICS } from "@/lib/topics";
 import type { MetadataRoute } from "next";
 

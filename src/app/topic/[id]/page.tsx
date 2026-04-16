@@ -2,7 +2,6 @@
 
 import Header from "@/components/Header";
 import { TOPICS } from "@/lib/topics";
-import { BIBLE_BOOKS } from "@/lib/bible-data";
 import { ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";

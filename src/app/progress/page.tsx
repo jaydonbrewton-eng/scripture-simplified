@@ -4,24 +4,22 @@ import Header from "@/components/Header";
 import { BIBLE_BOOKS } from "@/lib/bible-data";
 import { getStreakData, getBookProgress } from "@/lib/progress";
 import { BookOpen, CheckCircle2, Flame, Trophy } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function ProgressPage() {
-  const [streak, setStreak] = useState({ currentStreak: 0, longestStreak: 0, lastReadDate: "", totalChaptersRead: 0, readDates: [] as string[] });
-  const [bookStats, setBookStats] = useState<{ name: string; progress: number; chapters: number }[]>([]);
-
-  useEffect(() => {
-    setStreak(getStreakData());
-
-    const stats = BIBLE_BOOKS.map((b) => ({
+  const [streak] = useState(() => {
+    if (typeof window === "undefined") return { currentStreak: 0, longestStreak: 0, lastReadDate: "", totalChaptersRead: 0, readDates: [] as string[] };
+    return getStreakData();
+  });
+  const [bookStats] = useState<{ name: string; progress: number; chapters: number }[]>(() => {
+    if (typeof window === "undefined") return [];
+    return BIBLE_BOOKS.map((b) => ({
       name: b.name,
       progress: getBookProgress(b.name, b.chapters),
       chapters: b.chapters,
     })).filter((b) => b.progress > 0)
       .sort((a, b) => b.progress - a.progress);
-
-    setBookStats(stats);
-  }, []);
+  });
 
   const totalChapters = BIBLE_BOOKS.reduce((sum, b) => sum + b.chapters, 0);
   const overallProgress = totalChapters > 0 ? Math.round((streak.totalChaptersRead / totalChapters) * 100) : 0;

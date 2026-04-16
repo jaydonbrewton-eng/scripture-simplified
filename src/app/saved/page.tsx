@@ -3,15 +3,14 @@
 import Header from "@/components/Header";
 import { getBookmarks, removeBookmark, type Bookmark } from "@/lib/bookmarks";
 import { Bookmark as BookmarkIcon, Share2, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function SavedPage() {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
+    if (typeof window === "undefined") return [];
+    return getBookmarks();
+  });
   const [shareToast, setShareToast] = useState(false);
-
-  useEffect(() => {
-    setBookmarks(getBookmarks());
-  }, []);
 
   const handleRemove = (id: string) => {
     removeBookmark(id);

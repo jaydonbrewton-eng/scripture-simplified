@@ -23,7 +23,6 @@ import {
   Loader2,
   MessageCircle,
   Play,
-  Share2,
   Sparkles,
   Type,
   X,

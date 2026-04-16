@@ -3,7 +3,7 @@
 import type { BibleBook } from "@/lib/bible-data";
 import { isChapterRead, getBookProgress } from "@/lib/progress";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface ChapterSelectorProps {
   book: BibleBook;
@@ -12,17 +12,18 @@ interface ChapterSelectorProps {
 }
 
 export default function ChapterSelector({ book, onSelectChapter, onBack }: ChapterSelectorProps) {
-  const [readChapters, setReadChapters] = useState<Set<number>>(new Set());
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
+  const [readChapters] = useState<Set<number>>(() => {
+    if (typeof window === "undefined") return new Set<number>();
     const read = new Set<number>();
     for (let i = 1; i <= book.chapters; i++) {
       if (isChapterRead(book.name, i)) read.add(i);
     }
-    setReadChapters(read);
-    setProgress(getBookProgress(book.name, book.chapters));
-  }, [book.name, book.chapters]);
+    return read;
+  });
+  const [progress] = useState(() => {
+    if (typeof window === "undefined") return 0;
+    return getBookProgress(book.name, book.chapters);
+  });
 
   return (
     <div className="animate-fade-in">

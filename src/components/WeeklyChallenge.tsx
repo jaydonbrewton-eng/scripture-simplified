@@ -10,22 +10,21 @@ export default function WeeklyChallenge() {
   const challenge = getCurrentChallenge();
   const daysLeft = getDaysLeftInWeek();
   const [communityCount, setCommunityCount] = useState(0);
-  const [personalCompleted, setPersonalCompleted] = useState<Set<number>>(new Set());
-
-  useEffect(() => {
-    // Fetch community count
-    fetch("/api/challenge")
-      .then((r) => r.json())
-      .then((d) => setCommunityCount(d.count))
-      .catch(() => {});
-
-    // Check personal progress
+  const [personalCompleted] = useState<Set<number>>(() => {
+    if (typeof window === "undefined") return new Set<number>();
     const completed = new Set<number>();
     challenge.chapters.forEach((ch, i) => {
       if (isChapterRead(ch.book, ch.chapter)) completed.add(i);
     });
-    setPersonalCompleted(completed);
-  }, [challenge]);
+    return completed;
+  });
+
+  useEffect(() => {
+    fetch("/api/challenge")
+      .then((r) => r.json())
+      .then((d) => setCommunityCount(d.count))
+      .catch(() => {});
+  }, []);
 
   const personalProgress = Math.round((personalCompleted.size / challenge.chapters.length) * 100);
 

@@ -111,6 +111,14 @@ export default function ChapterReader({ book, chapter, onBack, onChangeChapter }
       if (!cancelled) {
         setChapterData(data);
         setLoading(false);
+        try {
+          localStorage.setItem("scripture-simplified-last-read", JSON.stringify({
+            book: book.name,
+            chapter,
+            translation,
+            timestamp: Date.now(),
+          }));
+        } catch { /* localStorage full or unavailable */ }
       }
     }).catch(() => {
       if (!cancelled) setLoading(false);

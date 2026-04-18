@@ -6,7 +6,7 @@ import Walkthrough from "@/components/Walkthrough";
 import WeeklyChallenge from "@/components/WeeklyChallenge";
 import { getBookmarks } from "@/lib/bookmarks";
 import { TOPICS } from "@/lib/topics";
-import { ArrowRight, BookOpen, Bookmark, Heart, HelpCircle, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Bookmark, ChevronRight, Heart, HelpCircle, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -16,6 +16,16 @@ export default function HomePage() {
   const [bookmarkCount] = useState(() => {
     if (typeof window === "undefined") return 0;
     return getBookmarks().length;
+  });
+  const [lastRead] = useState<{ book: string; chapter: number; translation: string } | null>(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const saved = localStorage.getItem("scripture-simplified-last-read");
+      if (!saved) return null;
+      return JSON.parse(saved);
+    } catch {
+      return null;
+    }
   });
   const [showWalkthrough, setShowWalkthrough] = useState(() => {
     if (typeof window === "undefined") return false;
@@ -48,6 +58,26 @@ export default function HomePage() {
             </p>
           </div>
         </section>
+
+        {/* Continue Reading */}
+        {lastRead && (
+          <section className="mb-10">
+            <Link
+              href={`/read?book=${encodeURIComponent(lastRead.book)}&chapter=${lastRead.chapter}`}
+              className="group flex items-center gap-4 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10 p-5 transition-all hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5"
+            >
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                <BookOpen size={22} className="text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-primary uppercase tracking-wider">Continue Reading</p>
+                <p className="mt-0.5 text-lg font-bold">{lastRead.book} {lastRead.chapter}</p>
+                <p className="text-xs text-muted-foreground">{lastRead.translation.toUpperCase()} &middot; Pick up where you left off</p>
+              </div>
+              <ChevronRight size={20} className="shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+            </Link>
+          </section>
+        )}
 
         {/* What are you going through? */}
         <section id="tour-topics" className="mb-12">

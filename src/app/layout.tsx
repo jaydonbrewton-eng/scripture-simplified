@@ -22,6 +22,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://scripturesimplified.com"),
   title: "Scripture Simplified - Bible Study for Everyone",
   description:
     "Make the Bible digestible. Read in 16 translations, get AI-powered plain-language breakdowns, and find verses for what you're going through -- without losing a single drop of the message.",

@@ -112,6 +112,22 @@ main {
   }
 }
 
+/* Prevent pull-to-refresh in standalone PWA */
+html, body {
+  overscroll-behavior-y: none;
+}
+
+/* Smooth native-like scrolling on iOS */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent text selection on interactive elements (app-like feel) */
+button, a, [role="button"] {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 /* iOS safe area padding */
 @supports (padding-top: env(safe-area-inset-top)) {
   header {
@@ -119,5 +135,12 @@ main {
   }
   body {
     padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Standalone PWA adjustments */
+@media (display-mode: standalone) {
+  body {
+    -webkit-overflow-scrolling: touch;
   }
 }

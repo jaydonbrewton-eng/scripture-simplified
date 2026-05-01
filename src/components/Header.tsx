@@ -28,7 +28,7 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-center gap-1 overflow-x-auto scrollbar-none">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
             const isActive = pathname === href || (href !== "/" && pathname.startsWith(href));
             return (

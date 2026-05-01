@@ -112,9 +112,10 @@ main {
   }
 }
 
-/* Prevent pull-to-refresh in standalone PWA */
+/* Prevent pull-to-refresh and horizontal overscroll in standalone PWA */
 html, body {
-  overscroll-behavior-y: none;
+  overscroll-behavior: none;
+  overflow-x: hidden;
 }
 
 /* Smooth native-like scrolling on iOS */

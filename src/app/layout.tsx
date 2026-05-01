@@ -66,7 +66,7 @@ export default function RootLayout({
         {/* Apple splash screens for common devices */}
         <link rel="apple-touch-startup-image" href="/api/icon-png?size=512" />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground overscroll-none">
+      <body className="min-h-full flex flex-col bg-background text-foreground overscroll-none overflow-x-hidden">
         <PageTransition>{children}</PageTransition>
         <Analytics />
         <SpeedInsights />

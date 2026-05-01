@@ -175,6 +175,36 @@ export const TOPICS: Topic[] = [
       { reference: "Colossians 3:8", book: "Colossians", chapter: 3, verseStart: 8, preview: "But now ye also put off all these; anger, wrath, malice, blasphemy, filthy communication out of your mouth." },
     ],
   },
+  {
+    id: "healing",
+    label: "Healing & Restoration",
+    emoji: "\ud83e\ude79",
+    description: "When you need God to make it right",
+    color: "from-emerald-500/20 to-teal-500/20",
+    verses: [
+      { reference: "Psalms 147:3", book: "Psalms", chapter: 147, verseStart: 3, preview: "He healeth the broken in heart, and bindeth up their wounds." },
+      { reference: "Jeremiah 17:14", book: "Jeremiah", chapter: 17, verseStart: 14, preview: "Heal me, O LORD, and I shall be healed; save me, and I shall be saved: for thou art my praise." },
+      { reference: "Isaiah 53:5", book: "Isaiah", chapter: 53, verseStart: 5, preview: "But he was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him; and with his stripes we are healed." },
+      { reference: "James 5:14-15", book: "James", chapter: 5, verseStart: 14, verseEnd: 15, preview: "Is any sick among you? let him call for the elders of the church; and let them pray over him... And the prayer of faith shall save the sick." },
+      { reference: "Psalms 30:2", book: "Psalms", chapter: 30, verseStart: 2, preview: "O LORD my God, I cried unto thee, and thou hast healed me." },
+      { reference: "3 John 1:2", book: "3 John", chapter: 1, verseStart: 2, preview: "Beloved, I wish above all things that thou mayest prosper and be in health, even as thy soul prospereth." },
+    ],
+  },
+  {
+    id: "temptation",
+    label: "Temptation & Self-Control",
+    emoji: "\ud83d\udee1\ufe0f",
+    description: "When you're fighting what pulls you away",
+    color: "from-yellow-500/20 to-amber-500/20",
+    verses: [
+      { reference: "1 Corinthians 10:13", book: "1 Corinthians", chapter: 10, verseStart: 13, preview: "There hath no temptation taken you but such as is common to man: but God is faithful, who will not suffer you to be tempted above that ye are able." },
+      { reference: "James 1:12-14", book: "James", chapter: 1, verseStart: 12, verseEnd: 14, preview: "Blessed is the man that endureth temptation: for when he is tried, he shall receive the crown of life." },
+      { reference: "Galatians 5:16", book: "Galatians", chapter: 5, verseStart: 16, preview: "This I say then, Walk in the Spirit, and ye shall not fulfil the lust of the flesh." },
+      { reference: "Matthew 26:41", book: "Matthew", chapter: 26, verseStart: 41, preview: "Watch and pray, that ye enter not into temptation: the spirit indeed is willing, but the flesh is weak." },
+      { reference: "2 Timothy 2:22", book: "2 Timothy", chapter: 2, verseStart: 22, preview: "Flee also youthful lusts: but follow righteousness, faith, charity, peace, with them that call on the Lord out of a pure heart." },
+      { reference: "Romans 12:21", book: "Romans", chapter: 12, verseStart: 21, preview: "Be not overcome of evil, but overcome evil with good." },
+    ],
+  },
 ];
 
 export const READING_PLANS: ReadingPlan[] = [
@@ -260,6 +290,21 @@ export const READING_PLANS: ReadingPlan[] = [
       { day: 3, book: "Colossians", chapter: 3, title: "Bear With Each Other", summary: "Nobody's perfect. Give grace.", prompts: ["What in this chapter felt convicting or freeing?", "Where do you need to extend more grace -- to others or to yourself?"] },
       { day: 4, book: "Psalms", chapter: 103, title: "As Far as East from West", summary: "How far God removes your mistakes.", prompts: ["What line in this psalm hit you the most?", "Is there something you've been holding against yourself that God has already let go of?"] },
       { day: 5, book: "Luke", chapter: 6, title: "Forgive and Be Free", summary: "Holding on only hurts you.", prompts: ["After this week, has your view on forgiveness shifted at all?", "What's one thing you want to take with you from these readings?"] },
+    ],
+  },
+  {
+    id: "healing-7",
+    title: "7 Days on Healing",
+    description: "God heals the broken -- body, mind, and soul.",
+    emoji: "\ud83e\ude79",
+    days: [
+      { day: 1, book: "Psalms", chapter: 147, title: "He Binds Up Wounds", summary: "God is close to the broken and actively healing them.", prompts: ["What part of you feels like it needs healing right now?", "What stood out to you in this psalm?"] },
+      { day: 2, book: "2 Kings", chapter: 5, title: "Naaman's Healing", summary: "A powerful man humbles himself and gets healed in a way he didn't expect.", prompts: ["Have you ever resisted help because it didn't come the way you expected?", "What surprised you about this story?"] },
+      { day: 3, book: "Mark", chapter: 5, title: "Touch and Be Whole", summary: "A woman who'd been suffering for 12 years reaches out in desperation -- and is healed instantly.", prompts: ["What does desperation look like in your own life?", "What hit you about how Jesus responded to her?"] },
+      { day: 4, book: "Isaiah", chapter: 53, title: "Wounded for Us", summary: "The most vivid prophecy of Jesus taking on our pain so we could be made whole.", prompts: ["How does it feel to read that someone carried your pain on purpose?", "What line in this chapter stayed with you?"] },
+      { day: 5, book: "John", chapter: 5, title: "Do You Want to Be Healed?", summary: "Jesus asks a man who'd been sick for 38 years a question that goes deeper than the surface.", prompts: ["If Jesus asked you that question today, what would you say?", "Is there something you've been holding onto that's keeping you stuck?"] },
+      { day: 6, book: "Psalms", chapter: 30, title: "Mourning Into Dancing", summary: "David's testimony of God turning his worst season into joy.", prompts: ["Have you ever experienced something painful that eventually turned around?", "What are you feeling after reading this?"] },
+      { day: 7, book: "Revelation", chapter: 21, title: "No More Pain", summary: "The ultimate promise -- a day when every tear is wiped away and healing is complete.", prompts: ["After this week, what has shifted in how you see healing?", "What's one thing from these readings you want to hold onto?"] },
     ],
   },
 ];

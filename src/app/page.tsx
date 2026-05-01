@@ -85,7 +85,7 @@ export default function HomePage() {
           <p className="mb-6 text-center text-sm text-muted-foreground">
             Tap what resonates and we&apos;ll show you verses that speak to it.
           </p>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
             {TOPICS.map((topic) => (
               <Link
                 key={topic.id}

@@ -112,10 +112,14 @@ main {
   }
 }
 
-/* Prevent pull-to-refresh and horizontal overscroll in standalone PWA */
-html, body {
-  overscroll-behavior: none;
+/* Prevent horizontal overscroll -- keep vertical scrolling working */
+html {
   overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+body {
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
 }
 
 /* Smooth native-like scrolling on iOS */

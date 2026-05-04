@@ -19,5 +19,5 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     });
   }, [pathname]);
 
-  return <div ref={ref}>{children}</div>;
+  return <div ref={ref} className="flex min-h-full flex-1 flex-col">{children}</div>;
 }

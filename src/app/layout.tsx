@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -67,15 +66,23 @@ export default function RootLayout({
         <link rel="apple-touch-startup-image" href="/api/icon-png?size=512" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground overflow-x-hidden">
-        <PageTransition>{children}</PageTransition>
+        {children}
         <Analytics />
         <SpeedInsights />
         <script
           dangerouslySetInnerHTML={{
             __html: `
               if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js');
+                window.addEventListener('load', async () => {
+                  try {
+                    if ('caches' in window && localStorage.getItem('ss-cache-version') !== 'v4') {
+                      const keys = await caches.keys();
+                      await Promise.all(keys.filter((key) => key.startsWith('scripture-simplified-')).map((key) => caches.delete(key)));
+                      localStorage.setItem('ss-cache-version', 'v4');
+                    }
+                    const registration = await navigator.serviceWorker.register('/sw.js?v=4', { updateViaCache: 'none' });
+                    await registration.update();
+                  } catch {}
                 });
               }
             `,

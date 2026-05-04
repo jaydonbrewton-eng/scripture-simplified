@@ -11,13 +11,15 @@ export default function PageTransition({ children }: { children: ReactNode }) {
     const el = ref.current;
     if (!el) return;
     el.style.opacity = "0";
-    el.style.transform = "translateY(6px)";
     requestAnimationFrame(() => {
-      el.style.transition = "opacity 0.2s ease-out, transform 0.2s ease-out";
+      el.style.transition = "opacity 0.2s ease-out";
       el.style.opacity = "1";
-      el.style.transform = "translateY(0)";
     });
   }, [pathname]);
 
-  return <div ref={ref} className="flex min-h-full flex-1 flex-col">{children}</div>;
+  return (
+    <div ref={ref} style={{ display: "contents" }}>
+      {children}
+    </div>
+  );
 }
